@@ -1,0 +1,117 @@
+
+<div class="col-xs-12">
+
+	<!-- PAGE TITLE -->
+<div class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid">
+            <ul class="nav navbar-nav navbar-right">
+			  <li ng-show="username"><a >Вошли как {{username}}</a></li>
+			  <li ng-show="username" ><button class="btn btn-danger btn-lg" ng-click="logout()">Выйти</button></li>
+              <li ng-hide="username" ><a href="#/login">Войти</a></li>
+              
+            </ul>
+       </div>
+  </div>
+	<!-- NEW COMMENT FORM -->
+
+	<!-- LOADING ICON -->
+	<!-- show loading icon if the loading variable is set to true -->
+
+	<!-- THE COMMENTS -->
+	<!-- hide these comments if the loading variable is true -->
+		Показать таблицу: <input type="checkbox" ng-model="element.table">
+		<div class='row'>
+		<table class="table table-bordered" ng-show="element.table">
+		      <thead>
+		        <tr>
+		          <th>Задача</th>
+		          <th>Операторы и линии</th>
+		          <th>Очередь</th>
+		        </tr>
+		      </thead>
+		      <tbody>
+		        <tr ng-repeat="task in tasks">
+		          <th scope="row"
+				  		dnd-droppable = "true"
+                		dnd-droppable-opts = "{}"
+                		dnd-model = "task"
+                		dnd-on-drop = "dropin($dropmodel, $dragmodel)"
+		          ><input type="checkbox" ng-model="task.show" ng-true-value="1"
+       ng-false-value="0"> {{task.Name}}</th>
+		          <td ng-show="task.show==1">
+		          	<div class="row userintask">
+		          	<div class="col-xs-3 user" ng-show="user.visible==1" ng-repeat="user in userintasks[task.id]"
+					dnd-draggable = "true"
+                 	dnd-draggable-opts = "{helper : 'clone'}"
+                 	dnd-model = "{u:user.Name,tid:task.id,t:'user'}"
+		          	>
+		          	<div class='user-wrapper {{phonestatuses[user.numberObj.state]}}'>
+						<h4>{{ user.Name }} </h4>
+						<div ng-show="element.usersnumbers"><p ng-hide="user.numberObj.state==5" >{{ user.number }}</p></div>
+							<p ng-show="user.numberObj.state==5" class="{{busers[user.Id].direction}}">{{ busers[user.Id].num }}
+							<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+							<span class="glyphicon glyphicon-log-in" aria-hidden="true" ng-show="busers[user.Id].direction=='in'"></span>
+							<span class="glyphicon glyphicon-log-out" aria-hidden="true" ng-show="busers[user.Id].direction!='in'"></span>
+						</div>
+		          	</div>
+		          	</div> 
+
+		          	</br>
+                		<div class="row userintask">
+                		<div class="btn btn-default dropzone"  
+		          		dnd-droppable = "true"
+                		dnd-droppable-opts = "{}"
+                		dnd-model = "task"
+                		dnd-on-drop = "dropout($dropmodel, $dragmodel)"> 
+                		Удалить </div>
+                		</div> 
+		          </td>
+		          <td ng-show="task.show">
+		          	<div class="btn btn-default" ng-repeat="q in queue[task.id.toLowerCase()]">{{q.phone}}<div ng-show="q.count>1">({{q.count}})</div></div>
+		          </td>
+		        </tr>
+		      </tbody>
+		</table>
+
+		Показать линии: <input type="checkbox" ng-model="element.lines">
+		Показать названия линий: <input type="checkbox" ng-model="element.linesname">
+		<br>
+		<div class='row jumbotron' ng-show="element.lines">
+		<div class="col-xs-1 line" ng-hide="loading" ng-repeat="line in lines"
+		dnd-draggable = "true"
+        dnd-draggable-opts = "{helper : 'clone'}"
+        dnd-model = "{u:line.SystemNumStr,tid:0,t:'line'}"
+		>
+			<div class='line-wrapper state-{{line.linestate}}'>
+				<span class="linename" >{{ line.SystemNumStr }} </span>
+				<div ng-show="element.linesname">	
+					<span class="linename"  ng-hide="line.linestate">{{ line.LineCode!=''?line.LineCode:line.SystemNumStr }}</span>
+					<span class="linename"  ng-show="line.linestate">{{ line.btwn }}</span>
+				</div>
+			</div>
+		</div>
+		</div>
+
+		Показать пользователей: <input type="checkbox" ng-model="element.users">
+		<br>
+		<div class='row jumbotron' ng-show="element.users">
+		<div class="col-xs-2 user" ng-hide="loading" ng-repeat="user in users"
+		dnd-draggable = "true"
+        dnd-draggable-opts = "{helper : 'clone'}"
+        dnd-model = "{u:user.name,tid:0,t:'user'}"
+		>
+			<div class='user-wrapper {{phonestatuses[user.numberObj.state]}}'>
+			<h4>{{ user.name }} </h4>
+			<div ng-show="element.usersnumbers"><p ng-hide="user.numberObj.state==5" >{{ user.number }}</p></div>
+			<p ng-show="user.numberObj.state==5" class="{{busers[user.id].direction}}">{{ busers[user.id].num }}</br>
+			<span ng-show="busers[user.id].timestart">{{busers[user.id].timestart | durationsec }}</span>
+			<span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+			<span class="glyphicon glyphicon-log-in" aria-hidden="true" ng-show="busers[user.id].direction=='in'"></span>
+			<span class="glyphicon glyphicon-log-out" aria-hidden="true" ng-show="busers[user.id].direction!='in'"></span>
+			</p>
+		</div>
+			</div>
+		</div>
+	</div>
+
+<p class="text-center" ng-show="loading"><span class="fa fa-meh-o fa-5x fa-spin"></span></p>

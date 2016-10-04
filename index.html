@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ok plugin</title>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/bootstrap.min.css"> <!-- load bootstrap via cdn -->
+	<link rel="stylesheet" href="css/font-awesome.min.css"> <!-- load fontawesome -->
+	<link rel="stylesheet" href="css/style.css"> 
+	<style>
+		body 		{ padding-top:30px; }
+		form 		{ padding-bottom:20px; }
+		.comment 	{ padding-bottom:20px; }
+	</style>
+
+	<!-- JS -->
+	<script src="js/oktell.js"></script>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/angular.min.js"></script> <!-- load angular -->
+	<script src="js/angular-route.js"></script>
+	<script src="js/angular-dnd.js"></script>
+	<script src="js/moment.js"></script>
+	<script src="js/moment-duration-format.js"></script>
+	<script src="js/angular-moment.min.js"></script>
+	
+	<!-- ANGULAR -->
+	<!-- all angular resources will be loaded from the /public folder -->
+		<script src="js/controllers/mainCtrl.js"></script> <!-- load our controller -->
+		<script src="js/services/commentService.js"></script>
+		<script src="js/services/taskService.js"></script>
+		<script src="js/services/userService.js"></script>
+		<script src="js/services/lineService.js"></script>
+		<script src="js/services/authService.js"></script>  <!-- load our service -->
+		<script src="js/services/cacheService.js"></script>
+		<script src="js/angular-sanitize.js"></script>
+		<script src="js/app.js"></script> <!-- load our application -->
+</head>
+<!-- declare our angular app and controller -->
+<body class="container-fluid" ng-app="commentApp">
+
+<div id="flash" class="alert alert-warning" role="alert"  ng-show="flash">{{ flash }}</div>
+</div>
+</div>
+	<div id="view" ng-view class="container-fluid"></div>
+</body>
+</html>
